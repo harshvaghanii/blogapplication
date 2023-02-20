@@ -13,6 +13,7 @@ connectDB();
 // Importing Routes
 
 const blogRoutes = require("./routes/blog");
+const authRoutes = require("./routes/auth");
 
 app.use(morgan("dev"));
 app.use(bodyParser.json());
@@ -28,7 +29,10 @@ if (process.env.NODE_ENV === "development") {
 
 // API Middlewares
 
-app.use("/api", blogRoutes);
+app.use("/api/blog", blogRoutes);
+app.use("/api/user", authRoutes);
+
+// Listerning to the Server
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
