@@ -1,11 +1,15 @@
 import Link from "next/link";
 import Layout from "../components/Layout";
-
+import LoginComponent from "../components/auth/LoginComponent";
 const Login = () => {
     return (
         <Layout>
-            <h2>Login Page</h2>
-            {/* <Link href={"/"}>Home</Link> */}
+            <h2 className="text-center pt-4 pb-4">Login</h2>
+            <div className="row">
+                <div className="col-md-6 offset-md-3 my-3">
+                    <LoginComponent />
+                </div>
+            </div>
         </Layout>
     );
 };

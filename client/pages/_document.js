@@ -13,7 +13,7 @@ export default function Document() {
                     rel="stylesheet"
                     href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
                     integrity="sha512-tDXPcamuZsWWd6OsKFyH6nAqh/MjZ/5Yk88T5o+aMfygqNFPan1pLyPFAndRzmOWHKT+jSDzWpJv8krj6x1LMA=="
-                    crossorigin="anonymous"
+                    crossOrigin="anonymous"
                     referrerPolicy="no-referrer"
                 />
                 <link

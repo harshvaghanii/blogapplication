@@ -1,11 +1,10 @@
 import Router from "next/router";
-import { Fragment, useEffect } from "react";
-import { useState } from "react";
-import { isAuth, signup } from "../../actions/auth";
+import { Fragment } from "react";
+import { useState, useEffect } from "react";
+import { login, authenticate, isAuth } from "../../actions/auth";
 
-const SignupComponent = () => {
+const LoginComponent = () => {
     const [values, setValues] = useState({
-        name: "Ryan",
         email: "ryan@gmail.com",
         password: "rrrrrr",
         error: "",
@@ -18,7 +17,7 @@ const SignupComponent = () => {
         isAuth() && Router.push(`/`);
     }, []);
 
-    const { name, email, password, error, loading, message, showForm } = values;
+    const { email, password, error, loading, message, showForm } = values;
 
     const handleChange = (name) => (e) => {
         setValues({
@@ -31,20 +30,14 @@ const SignupComponent = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setValues({ ...values, loading: true, error: false });
-        const user = { name, email, password };
-        signup(user).then((data) => {
+        const user = { email, password };
+        login(user).then((data) => {
             console.log(data);
             if (data.error) {
                 setValues({ ...values, error: data.error, loading: false });
             } else {
-                setValues({
-                    name: "",
-                    email: "",
-                    password: "",
-                    error: "",
-                    loading: false,
-                    message: data.message,
-                    showForm: false,
+                authenticate(data, () => {
+                    Router.push(`/`);
                 });
             }
         });
@@ -67,16 +60,6 @@ const SignupComponent = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <input
-                            value={name}
-                            onChange={handleChange("name")}
-                            type="text"
-                            className="form-control"
-                            placeholder="Type your name"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <input
                             value={email}
                             onChange={handleChange("email")}
                             type="email"
@@ -96,7 +79,7 @@ const SignupComponent = () => {
                     </div>
 
                     <div>
-                        <button className="btn btn-primary">Signup</button>
+                        <button className="btn btn-primary">Login</button>
                     </div>
                 </form>
             )}
@@ -104,4 +87,4 @@ const SignupComponent = () => {
     );
 };
 
-export default SignupComponent;
+export default LoginComponent;

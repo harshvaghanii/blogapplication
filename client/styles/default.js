@@ -3,6 +3,7 @@ const style = {
     fontWeight: "bold",
     color: "black",
     marginRight: "5px",
+    cursor: "pointer",
 };
 
 module.exports = style;
