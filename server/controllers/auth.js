@@ -3,6 +3,7 @@ const shortId = require("shortid");
 const jwt = require("jsonwebtoken");
 const { expressjwt: expressJwt } = require("express-jwt");
 
+
 exports.signupController = (req, res) => {
     const { name, email, password } = req.body;
     User.findOne({ email }).exec((err, user) => {
@@ -51,12 +52,11 @@ exports.loginController = (req, res) => {
 
         res.cookie("token", token, { expiresIn: "1d" });
 
-        const { hashed_password, resetPasswordLink, salt, ...others } =
-            user._doc;
+        const { _id, username, name, email, role } = user._doc;
 
         res.status(200).json({
             message: "Logged in successfully!",
-            user: { ...others },
+            user: { _id, username, name, email, role },
             token,
         });
     });
@@ -74,3 +74,36 @@ exports.requireSignin = expressJwt({
     algorithms: ["HS256"],
     userProperty: "auth",
 });
+
+exports.authMiddleware = (req, res, next) => {
+    const authUserId = req.auth._id;
+    User.findById({ _id: authUserId }).exec((err, user) => {
+        if (err || !user) {
+            return res.status(400).json({
+                error: "User not found!",
+            });
+        }
+
+        req.profile = user._doc;
+        next();
+    });
+};
+
+exports.adminMiddleware = (req, res, next) => {
+    const adminUserId = req.auth._id;
+    User.findById({ _id: adminUserId }).exec((err, user) => {
+        if (err || !user) {
+            return res.status(400).json({
+                error: "User not found!",
+            });
+        }
+        if (user.role != 1) {
+            return res.status(400).json({
+                error: "Admin resource. Access denied!!",
+            });
+        }
+
+        req.profile = user._doc;
+        next();
+    });
+};

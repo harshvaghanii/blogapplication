@@ -19,12 +19,13 @@ router.post("/login", userLoginValidator, runValidation, loginController);
 
 router.get("/logout", logoutController);
 
+
+
 // Testing purpose!
 
-router.get("/secret", requireSignin, (req, res) => {
-    res.json({
-        message: "You have access to secret route!",
-    });
-});
+// router.get("/secret", requireSignin, (req, res) => {
+//     console.log(req.user);
+//     res.json({ user: req.auth });
+// });
 
 module.exports = router;

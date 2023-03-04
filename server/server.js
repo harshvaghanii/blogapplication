@@ -14,6 +14,7 @@ connectDB();
 
 const blogRoutes = require("./routes/blog");
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 app.use(morgan("dev"));
 app.use(bodyParser.json());
@@ -31,6 +32,7 @@ if (process.env.NODE_ENV === "development") {
 
 app.use("/api/blog", blogRoutes);
 app.use("/api/user", authRoutes);
+app.use("/api/auth/user", userRoutes);
 
 // Listerning to the Server
 
